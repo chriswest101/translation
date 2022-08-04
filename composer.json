@@ -1,8 +1,7 @@
 {
-    "name": "waavi/translation",
+    "name": "chriswest101/translation",
     "description": "A Translation package for Laravel 5 with database and cache support",
     "keywords": [
-        "waavi",
         "laravel-translator",
         "laravel",
         "translator",
@@ -12,9 +11,7 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Waavi",
-            "email": "info@waavi.com",
-            "homepage": "http://waavi.com"
+            "name": "Chris West",
         }
     ],
     "require": {
