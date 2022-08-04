@@ -39,12 +39,12 @@ class DatabaseLoader extends Loader
      */
     public function loadSource($locale, $group, $namespace = '*')
     {
-        $dotArray = $this->translationRepository->loadSource($locale, $namespace, $group);
-        $undot    = [];
-        foreach ($dotArray as $item => $text) {
-            Arr::set($undot, $item, $text);
-        }
-        return $undot;
+        // $dotArray = $this->translationRepository->loadSource($locale, $namespace, $group);
+        // $undot    = [];
+        // foreach ($dotArray as $item => $text) {
+        //     Arr::set($undot, $item, $text);
+        // }
+        // return $undot;
     }
 
     /**
