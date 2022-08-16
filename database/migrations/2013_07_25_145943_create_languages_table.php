@@ -12,6 +12,10 @@ class CreateLanguagesTable extends Migration
      */
     public function up()
     {
+        if (app()->runningUnitTests()) {
+            return;
+        }
+        
         Schema::connection(config('translator.connection'))->create('translator_languages', function ($table) {
             $table->increments('id');
             $table->string('locale', 6)->unique();

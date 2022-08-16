@@ -12,6 +12,10 @@ class IncreaseLocaleLength extends Migration
      */
     public function up()
     {
+        if (app()->runningUnitTests()) {
+            return;
+        }
+        
         Schema::connection(config('translator.connection'))->table('translator_languages', function ($table) {
             $table->string('locale', 10)->change();
         });

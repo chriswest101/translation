@@ -12,6 +12,10 @@ class CreateTranslationsTable extends Migration
      */
     public function up()
     {
+        if (app()->runningUnitTests()) {
+            return;
+        }
+        
         Schema::connection(config('translator.connection'))->create('translator_translations', function ($table) {
             $table->increments('id');
             $table->string('locale', 6);
