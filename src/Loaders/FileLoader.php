@@ -1,4 +1,6 @@
-<?php namespace Waavi\Translation\Loaders;
+<?php
+
+namespace Waavi\Translation\Loaders;
 
 use Illuminate\Translation\FileLoader as LaravelFileLoader;
 
@@ -21,8 +23,7 @@ class FileLoader extends Loader
     /**
      *  Create a new mixed loader instance.
      *
-     *  @param  string                              $defaultLocale
-     *  @param  \Illuminate\Translation\FileLoader  $laravelFileLoader
+     *  @param  string  $defaultLocale
      *  @return void
      */
     public function __construct($defaultLocale, LaravelFileLoader $laravelFileLoader)

@@ -1,4 +1,5 @@
 <?php
+
 namespace Waavi\Translation\Middleware;
 
 use Closure;
@@ -13,27 +14,26 @@ class TranslationMiddleware
     /**
      *  Constructor
      *
-     *  @param  Waavi\Translation\UriLocalizer                      $uriLocalizer
-     *  @param  Waavi\Translation\Repositories\LanguageRepository   $languageRepository
-     *  @param  Illuminate\Config\Repository                        $config                 Laravel config
-     *  @param  Illuminate\View\Factory                             $viewFactory
-     *  @param  Illuminate\Foundation\Application                   $app
+     *  @param  Waavi\Translation\UriLocalizer  $uriLocalizer
+     *  @param  Waavi\Translation\Repositories\LanguageRepository  $languageRepository
+     *  @param  Illuminate\Config\Repository  $config                 Laravel config
+     *  @param  Illuminate\View\Factory  $viewFactory
+     *  @param  Illuminate\Foundation\Application  $app
      */
     public function __construct(UriLocalizer $uriLocalizer, LanguageRepository $languageRepository, Config $config, ViewFactory $viewFactory, Application $app)
     {
-        $this->uriLocalizer       = $uriLocalizer;
+        $this->uriLocalizer = $uriLocalizer;
         $this->languageRepository = $languageRepository;
-        $this->config             = $config;
-        $this->viewFactory        = $viewFactory;
-        $this->app                = $app;
+        $this->config = $config;
+        $this->viewFactory = $viewFactory;
+        $this->app = $app;
     }
 
     /**
      * Handle an incoming request.
      *
      *  @param  \Illuminate\Http\Request  $request
-     *  @param  \Closure  $next
-     *  @param  integer $segment     Index of the segment containing locale info
+     *  @param  int  $segment     Index of the segment containing locale info
      *  @return mixed
      */
     public function handle($request, Closure $next, $segment = 0)
@@ -43,20 +43,20 @@ class TranslationMiddleware
             return $next($request);
         }
 
-        $currentUrl    = $request->getUri();
-        $uriLocale     = $this->uriLocalizer->getLocaleFromUrl($currentUrl, $segment);
+        $currentUrl = $request->getUri();
+        $uriLocale = $this->uriLocalizer->getLocaleFromUrl($currentUrl, $segment);
         $defaultLocale = $this->config->get('app.locale');
 
         // If a locale was set in the url:
         if ($uriLocale) {
-            $currentLanguage     = $this->languageRepository->findByLocale($uriLocale);
+            $currentLanguage = $this->languageRepository->findByLocale($uriLocale);
             $selectableLanguages = $this->languageRepository->allExcept($uriLocale);
-            $altLocalizedUrls    = [];
+            $altLocalizedUrls = [];
             foreach ($selectableLanguages as $lang) {
                 $altLocalizedUrls[] = [
                     'locale' => $lang->locale,
-                    'name'   => $lang->name,
-                    'url'    => $this->uriLocalizer->localize($currentUrl, $lang->locale, $segment),
+                    'name' => $lang->name,
+                    'url' => $this->uriLocalizer->localize($currentUrl, $lang->locale, $segment),
                 ];
             }
 
@@ -72,6 +72,7 @@ class TranslationMiddleware
             if ($request->hasSession() && $request->session()->get('waavi.translation.locale') !== $uriLocale) {
                 $request->session()->put('waavi.translation.locale', $uriLocale);
             }
+
             return $next($request);
         }
 
@@ -93,6 +94,7 @@ class TranslationMiddleware
         if ($request->hasSession()) {
             $request->session()->reflash();
         }
+
         return redirect()->to($this->uriLocalizer->localize($currentUrl, $defaultLocale, $segment));
     }
 }

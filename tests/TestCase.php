@@ -1,8 +1,9 @@
 <?php
+
 namespace Waavi\Translation\Test;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Waavi\Translation\Repositories\LanguageRepository;
 
@@ -17,8 +18,7 @@ abstract class TestCase extends Orchestra
     }
 
     /**
-     * @param \Illuminate\Foundation\Application $app
-     *
+     * @param  \Illuminate\Foundation\Application  $app
      * @return array
      */
     protected function getPackageProviders($app)
@@ -28,34 +28,31 @@ abstract class TestCase extends Orchestra
         ];
     }
 
-    /**
-     * @param $app
-     */
     protected function getPackageAliases($app)
     {
         return [
-            'UriLocalizer'     => \Waavi\Translation\Facades\UriLocalizer::class,
+            'UriLocalizer' => \Waavi\Translation\Facades\UriLocalizer::class,
             'TranslationCache' => \Waavi\Translation\Facades\TranslationCache::class,
         ];
     }
 
     /**
-     * @param \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      */
     protected function getEnvironmentSetUp($app)
     {
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
+            'driver' => 'sqlite',
             'database' => ':memory:',
-            'prefix'   => '',
+            'prefix' => '',
         ]);
         $app['config']->set('app.key', 'sF5r4kJy5HEcOEx3NWxUcYj1zLZLHxuu');
         $app['config']->set('translator.source', 'database');
     }
 
     /**
-     * @param \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      */
     protected function setUpDatabase($app)
     {
@@ -67,7 +64,7 @@ abstract class TestCase extends Orchestra
     }
 
     /**
-     * @param \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      */
     protected function setUpRoutes($app)
     {

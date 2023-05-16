@@ -1,4 +1,6 @@
-<?php namespace Waavi\Translation\Test\Repositories;
+<?php
+
+namespace Waavi\Translation\Test\Repositories;
 
 use Illuminate\Support\Facades\App;
 use Waavi\Translation\Repositories\LanguageRepository;
@@ -11,7 +13,7 @@ class LanguageRepositoryTest extends TestCase
     {
         // During the parent's setup, both a 'es' 'Spanish' and 'en' 'English' languages are inserted into the database.
         parent::setUp();
-        $this->languageRepository    = App::make(LanguageRepository::class);
+        $this->languageRepository = App::make(LanguageRepository::class);
         $this->translationRepository = App::make(TranslationRepository::class);
     }
 
@@ -158,25 +160,25 @@ class LanguageRepositoryTest extends TestCase
         $this->assertEquals(0, $this->languageRepository->percentTranslated('es'));
 
         $this->translationRepository->create([
-            'locale'    => 'es',
+            'locale' => 'es',
             'namespace' => '*',
-            'group'     => 'group',
-            'item'      => 'item',
-            'text'      => 'text',
+            'group' => 'group',
+            'item' => 'item',
+            'text' => 'text',
         ]);
         $this->translationRepository->create([
-            'locale'    => 'en',
+            'locale' => 'en',
             'namespace' => '*',
-            'group'     => 'group',
-            'item'      => 'item',
-            'text'      => 'text',
+            'group' => 'group',
+            'item' => 'item',
+            'text' => 'text',
         ]);
         $this->translationRepository->create([
-            'locale'    => 'en',
+            'locale' => 'en',
             'namespace' => '*',
-            'group'     => 'group',
-            'item'      => 'item2',
-            'text'      => 'text',
+            'group' => 'group',
+            'item' => 'item2',
+            'text' => 'text',
         ]);
 
         $this->assertEquals(50, $this->languageRepository->percentTranslated('es'));

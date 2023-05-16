@@ -1,10 +1,12 @@
-<?php namespace Waavi\Translation\Test\Loaders;
+<?php
+
+namespace Waavi\Translation\Test\Loaders;
 
 use Illuminate\Support\Facades\App;
+use Mockery;
 use Waavi\Translation\Loaders\DatabaseLoader;
 use Waavi\Translation\Repositories\TranslationRepository;
 use Waavi\Translation\Test\TestCase;
-use \Mockery;
 
 class DatabaseLoaderTest extends TestCase
 {
@@ -12,10 +14,10 @@ class DatabaseLoaderTest extends TestCase
     {
         parent::setUp();
         $this->translationRepository = App::make(TranslationRepository::class);
-        $this->loader                = new DatabaseLoader('es', $this->translationRepository);
+        $this->loader = new DatabaseLoader('es', $this->translationRepository);
     }
 
-    protected function tearDown():void
+    protected function tearDown(): void
     {
         Mockery::close();
         parent::tearDown();
@@ -28,33 +30,33 @@ class DatabaseLoaderTest extends TestCase
     {
         $expected = [
             'simple' => 'text',
-            'array'  => [
-                'item'   => 'item',
+            'array' => [
+                'item' => 'item',
                 'nested' => [
                     'item' => 'nested',
                 ],
             ],
         ];
         $translation = $this->translationRepository->create([
-            'locale'    => 'es',
+            'locale' => 'es',
             'namespace' => '*',
-            'group'     => 'group',
-            'item'      => 'simple',
-            'text'      => 'text',
+            'group' => 'group',
+            'item' => 'simple',
+            'text' => 'text',
         ]);
         $translation = $this->translationRepository->create([
-            'locale'    => 'es',
+            'locale' => 'es',
             'namespace' => '*',
-            'group'     => 'group',
-            'item'      => 'array.item',
-            'text'      => 'item',
+            'group' => 'group',
+            'item' => 'array.item',
+            'text' => 'item',
         ]);
         $translation = $this->translationRepository->create([
-            'locale'    => 'es',
+            'locale' => 'es',
             'namespace' => '*',
-            'group'     => 'group',
-            'item'      => 'array.nested.item',
-            'text'      => 'nested',
+            'group' => 'group',
+            'item' => 'array.nested.item',
+            'text' => 'nested',
         ]);
         $translations = $this->loader->loadSource('es', 'group');
         $this->assertEquals($expected, $translations);

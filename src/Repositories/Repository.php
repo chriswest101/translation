@@ -1,4 +1,6 @@
-<?php namespace Waavi\Translation\Repositories;
+<?php
+
+namespace Waavi\Translation\Repositories;
 
 class Repository
 {
@@ -15,7 +17,7 @@ class Repository
     /**
      *  Check if the model's table exists
      *
-     *  @return boolean
+     *  @return bool
      */
     public function tableExists()
     {
@@ -25,33 +27,35 @@ class Repository
     /**
      *  Retrieve all records.
      *
-     *  @param array $related Related object to include.
-     *  @param integer $perPage Number of records to retrieve per page. If zero the whole result set is returned.
+     *  @param  array  $related Related object to include.
+     *  @param  int  $perPage Number of records to retrieve per page. If zero the whole result set is returned.
      *  @return \Illuminate\Database\Eloquent\Model
      */
     public function all($related = [], $perPage = 0)
     {
         $results = $this->model->with($related)->orderBy('created_at', 'DESC');
+
         return $perPage ? $results->paginate($perPage) : $results->get();
     }
 
     /**
      *  Retrieve all trashed.
      *
-     *  @param array $related Related object to include.
-     *  @param integer $perPage Number of records to retrieve per page. If zero the whole result set is returned.
+     *  @param  array  $related Related object to include.
+     *  @param  int  $perPage Number of records to retrieve per page. If zero the whole result set is returned.
      *  @return \Illuminate\Database\Eloquent\Model
      */
     public function trashed($related = [], $perPage = 0)
     {
         $trashed = $this->model->onlyTrashed()->with($related);
+
         return $perPage ? $trashed->paginate($perPage) : $trashed->get();
     }
 
     /**
      *  Retrieve a single record by id.
      *
-     *  @param integer $id
+     *  @param  int  $id
      *  @return \Illuminate\Database\Eloquent\Model
      */
     public function find($id, $related = [])
@@ -62,7 +66,7 @@ class Repository
     /**
      *  Retrieve a single record by id.
      *
-     *  @param integer $id
+     *  @param  int  $id
      *  @return \Illuminate\Database\Eloquent\Model
      */
     public function findTrashed($id, $related = [])
@@ -73,23 +77,24 @@ class Repository
     /**
      *  Remove a record.
      *
-     *  @param  \Illuminate\Database\Eloquent\Model $model
-     *  @return boolean
+     *  @param  \Illuminate\Database\Eloquent\Model  $model
+     *  @return bool
      */
     public function delete($id)
     {
         $model = $this->model->where('id', $id)->first();
-        if (!$model) {
+        if (! $model) {
             return false;
         }
+
         return $model->delete();
     }
 
     /**
      *  Restore a record.
      *
-     *  @param  int $id
-     *  @return boolean
+     *  @param  int  $id
+     *  @return bool
      */
     public function restore($id)
     {
@@ -97,13 +102,14 @@ class Repository
         if ($model) {
             $model->restore();
         }
+
         return $model;
     }
 
     /**
      *  Returns total number of entries in DB.
      *
-     *  @return integer
+     *  @return int
      */
     public function count()
     {

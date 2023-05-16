@@ -2,5 +2,5 @@
 
 return [
     'emptyString' => '',
-    'emptyArray'  => [],
+    'emptyArray' => [],
 ];
