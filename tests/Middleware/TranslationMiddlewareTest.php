@@ -1,6 +1,7 @@
 <?php
 namespace Waavi\Translation\Test\Middleware;
 
+use Illuminate\Support\Facades\App;
 use Waavi\Translation\Repositories\TranslationRepository;
 use Waavi\Translation\Test\TestCase;
 
@@ -109,7 +110,7 @@ class TranslationMiddlewareTest extends TestCase
      */
     public function it_keeps_locale_in_post_requests_with_no_locale_set()
     {
-        $translationRepository = \App::make(TranslationRepository::class);
+        $translationRepository = App::make(TranslationRepository::class);
         $trans                 = $translationRepository->create([
             'locale'    => 'en',
             'namespace' => '*',

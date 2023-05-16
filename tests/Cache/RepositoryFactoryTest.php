@@ -1,5 +1,6 @@
 <?php namespace Waavi\Translation\Test\Cache;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Cache\ArrayStore;
 use Illuminate\Cache\FileStore;
 use Waavi\Translation\Cache\RepositoryFactory;
@@ -20,7 +21,7 @@ class RepositoryFactoryTest extends TestCase
      */
     public function test_returns_simple_cache_if_non_taggable_store()
     {
-        $store = new FileStore(\App::make('files'), __DIR__ . '/temp');
+        $store = new FileStore(App::make('files'), __DIR__ . '/temp');
         $repo  = RepositoryFactory::make($store, 'translation');
         $this->assertEquals(SimpleRepository::class, get_class($repo));
     }

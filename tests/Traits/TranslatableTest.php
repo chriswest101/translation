@@ -1,6 +1,8 @@
 <?php
 namespace Waavi\Translation\Test\Traits;
 
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Mockery;
 use Waavi\Translation\Repositories\LanguageRepository;
@@ -14,7 +16,7 @@ class TranslatableTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        \Schema::create('dummies', function ($table) {
+        Schema::create('dummies', function ($table) {
             $table->increments('id');
             $table->string('title')->nullable();
             $table->string('title_translation')->nullable();
@@ -23,8 +25,8 @@ class TranslatableTest extends TestCase
             $table->string('text_translation')->nullable();
             $table->timestamps();
         });
-        $this->languageRepository    = \App::make(LanguageRepository::class);
-        $this->translationRepository = \App::make(TranslationRepository::class);
+        $this->languageRepository    = App::make(LanguageRepository::class);
+        $this->translationRepository = App::make(TranslationRepository::class);
     }
 
     /**

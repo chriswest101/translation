@@ -1,5 +1,6 @@
 <?php namespace Waavi\Translation\Test\Repositories;
 
+use Illuminate\Support\Facades\App;
 use Waavi\Translation\Repositories\LanguageRepository;
 use Waavi\Translation\Repositories\TranslationRepository;
 use Waavi\Translation\Test\TestCase;
@@ -10,8 +11,8 @@ class LanguageRepositoryTest extends TestCase
     {
         // During the parent's setup, both a 'es' 'Spanish' and 'en' 'English' languages are inserted into the database.
         parent::setUp();
-        $this->languageRepository    = \App::make(LanguageRepository::class);
-        $this->translationRepository = \App::make(TranslationRepository::class);
+        $this->languageRepository    = App::make(LanguageRepository::class);
+        $this->translationRepository = App::make(TranslationRepository::class);
     }
 
     /**

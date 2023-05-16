@@ -1,5 +1,6 @@
 <?php namespace Waavi\Translation\Test\Loaders;
 
+use Illuminate\Support\Facades\App;
 use Waavi\Translation\Loaders\DatabaseLoader;
 use Waavi\Translation\Repositories\TranslationRepository;
 use Waavi\Translation\Test\TestCase;
@@ -10,7 +11,7 @@ class DatabaseLoaderTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->translationRepository = \App::make(TranslationRepository::class);
+        $this->translationRepository = App::make(TranslationRepository::class);
         $this->loader                = new DatabaseLoader('es', $this->translationRepository);
     }
 

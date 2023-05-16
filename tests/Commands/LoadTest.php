@@ -1,5 +1,6 @@
 <?php namespace Waavi\Translation\Test\Commands;
 
+use Illuminate\Support\Facades\App;
 use Waavi\Translation\Commands\FileLoaderCommand;
 use Waavi\Translation\Repositories\LanguageRepository;
 use Waavi\Translation\Repositories\TranslationRepository;
@@ -10,10 +11,10 @@ class LoadTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->languageRepository    = \App::make(LanguageRepository::class);
-        $this->translationRepository = \App::make(TranslationRepository::class);
+        $this->languageRepository    = App::make(LanguageRepository::class);
+        $this->translationRepository = App::make(TranslationRepository::class);
         $translationsPath            = realpath(__DIR__ . '/../lang');
-        $this->command               = new FileLoaderCommand($this->languageRepository, $this->translationRepository, \App::make('files'), $translationsPath, 'en');
+        $this->command               = new FileLoaderCommand($this->languageRepository, $this->translationRepository, App::make('files'), $translationsPath, 'en');
     }
 
     /**
