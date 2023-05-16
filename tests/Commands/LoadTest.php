@@ -7,7 +7,7 @@ use Waavi\Translation\Test\TestCase;
 
 class LoadTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->languageRepository    = \App::make(LanguageRepository::class);

@@ -11,7 +11,7 @@ use Waavi\Translation\Traits\Translatable;
 class TranslatableTest extends TestCase
 {
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         \Schema::create('dummies', function ($table) {
