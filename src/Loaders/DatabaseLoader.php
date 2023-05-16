@@ -1,4 +1,6 @@
-<?php namespace Waavi\Translation\Loaders;
+<?php
+
+namespace Waavi\Translation\Loaders;
 
 use Illuminate\Support\Arr;
 use Waavi\Translation\Repositories\TranslationRepository;
@@ -7,12 +9,14 @@ class DatabaseLoader extends Loader
 {
     /**
      *  The default locale.
+     *
      *  @var string
      */
     protected $defaultLocale;
 
     /**
      *  Translations repository.
+     *
      *  @var \Waavi\Translation\Repositories\TranslationRepository
      */
     protected $translationRepository;
@@ -20,8 +24,7 @@ class DatabaseLoader extends Loader
     /**
      *  Create a new mixed loader instance.
      *
-     *  @param  string                                                  $defaultLocale
-     *  @param  \Waavi\Translation\Repositories\TranslationRepository   $translationRepository
+     *  @param  string  $defaultLocale
      */
     public function __construct($defaultLocale, TranslationRepository $translationRepository)
     {
@@ -41,10 +44,11 @@ class DatabaseLoader extends Loader
     {
         try {
             $dotArray = $this->translationRepository->loadSource($locale, $namespace, $group);
-            $undot    = [];
+            $undot = [];
             foreach ($dotArray as $item => $text) {
                 Arr::set($undot, $item, $text);
             }
+
             return $undot;
         } catch (\Throwable $th) {
             return [];

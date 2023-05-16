@@ -1,9 +1,8 @@
-<?php namespace Waavi\Translation\Loaders;
+<?php
 
-use Illuminate\Config\Repository as Config;
+namespace Waavi\Translation\Loaders;
+
 use Illuminate\Contracts\Translation\Loader as LoaderContract;
-use Waavi\Translation\Repositories\LanguageRepository;
-use Waavi\Translation\Repositories\TranslationRepository;
 
 abstract class Loader implements LoaderContract
 {
@@ -17,9 +16,9 @@ abstract class Loader implements LoaderContract
     /**
      *  Create a new loader instance.
      *
-     *  @param  \Waavi\Translation\Repositories\LanguageRepository      $languageRepository
-     *  @param  \Waavi\Translation\Repositories\TranslationRepository   $translationRepository
-     *  @param  \Illuminate\Config\Repository                           $config
+     *  @param  \Waavi\Translation\Repositories\LanguageRepository  $languageRepository
+     *  @param  \Waavi\Translation\Repositories\TranslationRepository  $translationRepository
+     *  @param  \Illuminate\Config\Repository  $config
      */
     public function __construct($defaultLocale)
     {
@@ -42,6 +41,7 @@ abstract class Loader implements LoaderContract
                 $this->loadSource($locale, $group, $namespace)
             );
         }
+
         return $this->loadSource($locale, $group, $namespace);
     }
 

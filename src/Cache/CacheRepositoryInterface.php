@@ -10,7 +10,7 @@ interface CacheRepositoryInterface
      *  @param  string  $locale
      *  @param  string  $group
      *  @param  string  $namespace
-     *  @return boolean
+     *  @return bool
      */
     public function has($locale, $group, $namespace);
 
@@ -30,8 +30,8 @@ interface CacheRepositoryInterface
      *  @param  string  $locale
      *  @param  string  $group
      *  @param  string  $namespace
-     *  @param  mixed   $content
-     *  @param  integer $minutes
+     *  @param  mixed  $content
+     *  @param  int  $minutes
      *  @return void
      */
     public function put($locale, $group, $namespace, $content, $minutes);

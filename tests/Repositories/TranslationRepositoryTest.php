@@ -1,18 +1,20 @@
-<?php namespace Waavi\Translation\Test\Repositories;
+<?php
 
-use Waavi\Translation\Models\Translation;
+namespace Waavi\Translation\Test\Repositories;
+
+use Illuminate\Support\Facades\App;
 use Waavi\Translation\Repositories\LanguageRepository;
 use Waavi\Translation\Repositories\TranslationRepository;
 use Waavi\Translation\Test\TestCase;
 
 class TranslationRepositoryTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         // During the parent's setup, both a 'es' 'Spanish' and 'en' 'English' languages are inserted into the database.
         parent::setUp();
-        $this->languageRepository    = \App::make(LanguageRepository::class);
-        $this->translationRepository = \App::make(TranslationRepository::class);
+        $this->languageRepository = App::make(LanguageRepository::class);
+        $this->translationRepository = App::make(TranslationRepository::class);
     }
 
     /**
@@ -21,11 +23,11 @@ class TranslationRepositoryTest extends TestCase
     public function test_can_create()
     {
         $translation = $this->translationRepository->create([
-            'locale'    => 'es',
+            'locale' => 'es',
             'namespace' => '*',
-            'group'     => 'group',
-            'item'      => 'item',
-            'text'      => 'text',
+            'group' => 'group',
+            'item' => 'item',
+            'text' => 'text',
         ]);
 
         $this->assertTrue($translation->exists());
@@ -43,11 +45,11 @@ class TranslationRepositoryTest extends TestCase
     public function test_namespace_is_required()
     {
         $translation = $this->translationRepository->create([
-            'locale'    => 'es',
+            'locale' => 'es',
             'namespace' => '',
-            'group'     => 'group',
-            'item'      => 'item',
-            'text'      => 'text',
+            'group' => 'group',
+            'item' => 'item',
+            'text' => 'text',
         ]);
         $this->assertNull($translation);
     }
@@ -58,11 +60,11 @@ class TranslationRepositoryTest extends TestCase
     public function test_locale_is_required()
     {
         $translation = $this->translationRepository->create([
-            'locale'    => '',
+            'locale' => '',
             'namespace' => '*',
-            'group'     => 'group',
-            'item'      => 'item',
-            'text'      => 'text',
+            'group' => 'group',
+            'item' => 'item',
+            'text' => 'text',
         ]);
         $this->assertNull($translation);
     }
@@ -73,11 +75,11 @@ class TranslationRepositoryTest extends TestCase
     public function test_group_is_required()
     {
         $translation = $this->translationRepository->create([
-            'locale'    => 'es',
+            'locale' => 'es',
             'namespace' => '*',
-            'group'     => '',
-            'item'      => 'item',
-            'text'      => 'text',
+            'group' => '',
+            'item' => 'item',
+            'text' => 'text',
         ]);
         $this->assertNull($translation);
     }
@@ -88,11 +90,11 @@ class TranslationRepositoryTest extends TestCase
     public function test_item_is_required()
     {
         $translation = $this->translationRepository->create([
-            'locale'    => 'es',
+            'locale' => 'es',
             'namespace' => '*',
-            'group'     => 'group',
-            'item'      => '',
-            'text'      => 'text',
+            'group' => 'group',
+            'item' => '',
+            'text' => 'text',
         ]);
         $this->assertNull($translation);
     }
@@ -103,11 +105,11 @@ class TranslationRepositoryTest extends TestCase
     public function test_text_not_required()
     {
         $translation = $this->translationRepository->create([
-            'locale'    => 'es',
+            'locale' => 'es',
             'namespace' => '*',
-            'group'     => 'group',
-            'item'      => 'item',
-            'text'      => '',
+            'group' => 'group',
+            'item' => 'item',
+            'text' => '',
         ]);
         $this->assertNotNull($translation);
         $this->assertTrue($translation->exists());
@@ -119,21 +121,21 @@ class TranslationRepositoryTest extends TestCase
     public function test_cannot_repeat_same_code_on_same_language()
     {
         $translation = $this->translationRepository->create([
-            'locale'    => 'es',
+            'locale' => 'es',
             'namespace' => '*',
-            'group'     => 'group',
-            'item'      => 'item',
-            'text'      => 'text',
+            'group' => 'group',
+            'item' => 'item',
+            'text' => 'text',
         ]);
         $this->assertNotNull($translation);
         $this->assertTrue($translation->exists());
 
         $translation = $this->translationRepository->create([
-            'locale'    => 'es',
+            'locale' => 'es',
             'namespace' => '*',
-            'group'     => 'group',
-            'item'      => 'item',
-            'text'      => 'text',
+            'group' => 'group',
+            'item' => 'item',
+            'text' => 'text',
         ]);
         $this->assertNull($translation);
     }
@@ -144,11 +146,11 @@ class TranslationRepositoryTest extends TestCase
     public function test_update_works()
     {
         $translation = $this->translationRepository->create([
-            'locale'    => 'es',
+            'locale' => 'es',
             'namespace' => '*',
-            'group'     => 'group',
-            'item'      => 'item',
-            'text'      => 'text',
+            'group' => 'group',
+            'item' => 'item',
+            'text' => 'text',
         ]);
 
         $this->assertTrue($this->translationRepository->update($translation->id, 'new text'));
@@ -166,11 +168,11 @@ class TranslationRepositoryTest extends TestCase
     public function test_update_and_lock()
     {
         $translation = $this->translationRepository->create([
-            'locale'    => 'es',
+            'locale' => 'es',
             'namespace' => '*',
-            'group'     => 'group',
-            'item'      => 'item',
-            'text'      => 'text',
+            'group' => 'group',
+            'item' => 'item',
+            'text' => 'text',
         ]);
 
         $this->assertTrue($this->translationRepository->updateAndLock($translation->id, 'new text'));
@@ -188,11 +190,11 @@ class TranslationRepositoryTest extends TestCase
     public function test_update_fails_if_lock()
     {
         $translation = $this->translationRepository->create([
-            'locale'    => 'es',
+            'locale' => 'es',
             'namespace' => '*',
-            'group'     => 'group',
-            'item'      => 'item',
-            'text'      => 'text',
+            'group' => 'group',
+            'item' => 'item',
+            'text' => 'text',
         ]);
         $translation->lock();
         $translation->save();
@@ -206,11 +208,11 @@ class TranslationRepositoryTest extends TestCase
     public function test_force_update()
     {
         $translation = $this->translationRepository->create([
-            'locale'    => 'es',
+            'locale' => 'es',
             'namespace' => '*',
-            'group'     => 'group',
-            'item'      => 'item',
-            'text'      => 'text',
+            'group' => 'group',
+            'item' => 'item',
+            'text' => 'text',
         ]);
         $translation->lock();
         $translation->save();
@@ -230,18 +232,18 @@ class TranslationRepositoryTest extends TestCase
     public function test_delete()
     {
         $translation = $this->translationRepository->create([
-            'locale'    => 'es',
+            'locale' => 'es',
             'namespace' => '*',
-            'group'     => 'group',
-            'item'      => 'item',
-            'text'      => 'text',
+            'group' => 'group',
+            'item' => 'item',
+            'text' => 'text',
         ]);
         $translation2 = $this->translationRepository->create([
-            'locale'    => 'es',
+            'locale' => 'es',
             'namespace' => '*',
-            'group'     => 'group',
-            'item'      => 'item2',
-            'text'      => 'text',
+            'group' => 'group',
+            'item' => 'item2',
+            'text' => 'text',
         ]);
         $this->assertEquals(2, $this->translationRepository->count());
         $this->translationRepository->delete($translation->id);
@@ -254,25 +256,25 @@ class TranslationRepositoryTest extends TestCase
     public function it_deletes_other_locales_if_default()
     {
         $translation = $this->translationRepository->create([
-            'locale'    => 'en',
+            'locale' => 'en',
             'namespace' => '*',
-            'group'     => 'group',
-            'item'      => 'item',
-            'text'      => 'text',
+            'group' => 'group',
+            'item' => 'item',
+            'text' => 'text',
         ]);
         $translation2 = $this->translationRepository->create([
-            'locale'    => 'es',
+            'locale' => 'es',
             'namespace' => '*',
-            'group'     => 'group',
-            'item'      => 'item',
-            'text'      => 'text',
+            'group' => 'group',
+            'item' => 'item',
+            'text' => 'text',
         ]);
         $translation3 = $this->translationRepository->create([
-            'locale'    => 'es',
+            'locale' => 'es',
             'namespace' => '*',
-            'group'     => 'group',
-            'item'      => 'item2',
-            'text'      => 'text',
+            'group' => 'group',
+            'item' => 'item2',
+            'text' => 'text',
         ]);
         $this->assertEquals(3, $this->translationRepository->count());
         $this->translationRepository->delete($translation->id);
@@ -286,7 +288,7 @@ class TranslationRepositoryTest extends TestCase
     {
         $array = [
             'simple' => 'Simple',
-            'group'  => [
+            'group' => [
                 'item' => 'Item',
                 'meti' => 'metI',
             ],
@@ -323,7 +325,7 @@ class TranslationRepositoryTest extends TestCase
     {
         $array = [
             'simple' => 'Simple',
-            'group'  => [
+            'group' => [
                 'item' => 'Item',
                 'meti' => 'metI',
             ],

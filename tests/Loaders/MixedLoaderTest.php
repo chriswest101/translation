@@ -1,22 +1,24 @@
-<?php namespace Waavi\Translation\Test\Loaders;
+<?php
 
+namespace Waavi\Translation\Test\Loaders;
+
+use Mockery;
 use Waavi\Translation\Loaders\DatabaseLoader;
 use Waavi\Translation\Loaders\FileLoader;
 use Waavi\Translation\Loaders\MixedLoader;
 use Waavi\Translation\Test\TestCase;
-use \Mockery;
 
 class MixedLoaderTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
-        $this->fileLoader  = Mockery::mock(FileLoader::class);
-        $this->dbLoader    = Mockery::mock(DatabaseLoader::class);
+        $this->fileLoader = Mockery::mock(FileLoader::class);
+        $this->dbLoader = Mockery::mock(DatabaseLoader::class);
         $this->mixedLoader = new MixedLoader('en', $this->fileLoader, $this->dbLoader);
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         Mockery::close();
         parent::tearDown();
@@ -29,7 +31,7 @@ class MixedLoaderTest extends TestCase
     {
         $file = [
             'in.file' => 'File',
-            'no.db'   => 'No database',
+            'no.db' => 'No database',
         ];
         $db = [
             'in.file' => 'Database',
@@ -37,7 +39,7 @@ class MixedLoaderTest extends TestCase
         ];
         $expected = [
             'in.file' => 'File',
-            'no.db'   => 'No database',
+            'no.db' => 'No database',
             'no.file' => 'No file',
         ];
         $this->fileLoader->shouldReceive('loadSource')->with('en', 'group', 'name')->andReturn($file);

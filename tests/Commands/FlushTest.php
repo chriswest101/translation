@@ -1,17 +1,20 @@
-<?php namespace Waavi\Translation\Test\Commands;
+<?php
 
+namespace Waavi\Translation\Test\Commands;
+
+use Illuminate\Support\Facades\App;
 use Mockery;
 use Waavi\Translation\Test\TestCase;
 
 class FlushTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
-        $this->cacheRepository = \App::make('translation.cache.repository');
+        $this->cacheRepository = App::make('translation.cache.repository');
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         parent::tearDown();
         Mockery::close();

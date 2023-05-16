@@ -1,20 +1,22 @@
-<?php namespace Waavi\Translation\Test\Loaders;
+<?php
+
+namespace Waavi\Translation\Test\Loaders;
 
 use Illuminate\Translation\FileLoader as LaravelFileLoader;
+use Mockery;
 use Waavi\Translation\Loaders\FileLoader;
 use Waavi\Translation\Test\TestCase;
-use \Mockery;
 
 class FileLoaderTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->laravelLoader = Mockery::mock(LaravelFileLoader::class);
-        $this->fileLoader    = new FileLoader('en', $this->laravelLoader);
+        $this->fileLoader = new FileLoader('en', $this->laravelLoader);
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         Mockery::close();
         parent::tearDown();

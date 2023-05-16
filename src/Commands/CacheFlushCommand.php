@@ -1,4 +1,6 @@
-<?php namespace Waavi\Translation\Commands;
+<?php
+
+namespace Waavi\Translation\Commands;
 
 use Illuminate\Console\Command;
 use Waavi\Translation\Cache\CacheRepositoryInterface as CacheRepository;
@@ -17,20 +19,20 @@ class CacheFlushCommand extends Command
      *
      * @var string
      */
-    protected $description = "Flush the translation cache.";
+    protected $description = 'Flush the translation cache.';
 
     /**
      *  Create the cache flushed command
      *
-     *  @param  \Waavi\Lang\Providers\LanguageProvider        $languageRepository
-     *  @param  \Waavi\Lang\Providers\LanguageEntryProvider   $translationRepository
-     *  @param  \Illuminate\Foundation\Application            $app
+     *  @param  \Waavi\Lang\Providers\LanguageProvider  $languageRepository
+     *  @param  \Waavi\Lang\Providers\LanguageEntryProvider  $translationRepository
+     *  @param  \Illuminate\Foundation\Application  $app
      */
     public function __construct(CacheRepository $cacheRepository, $cacheEnabled)
     {
         parent::__construct();
         $this->cacheRepository = $cacheRepository;
-        $this->cacheEnabled    = $cacheEnabled;
+        $this->cacheEnabled = $cacheEnabled;
     }
 
     /**
@@ -40,18 +42,18 @@ class CacheFlushCommand extends Command
      */
     public function fire()
     {
-        if (!$this->cacheEnabled) {
+        if (! $this->cacheEnabled) {
             $this->info('The translation cache is disabled.');
         } else {
             $this->cacheRepository->flushAll();
             $this->info('Translation cache cleared.');
         }
     }
-    
-    /**
-     * Execute the console command for Laravel 5.5
-     * this laravel version call handle intead of fire
-     */
+
+     /**
+      * Execute the console command for Laravel 5.5
+      * this laravel version call handle intead of fire
+      */
      public function handle()
      {
          $this->fire();

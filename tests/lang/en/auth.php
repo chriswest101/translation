@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'login'  => [
-        'label'  => 'Enter your credentials',
+    'login' => [
+        'label' => 'Enter your credentials',
         'action' => 'Login',
     ],
     'simple' => 'Simple',

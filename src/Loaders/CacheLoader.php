@@ -1,4 +1,6 @@
-<?php namespace Waavi\Translation\Loaders;
+<?php
+
+namespace Waavi\Translation\Loaders;
 
 use Waavi\Translation\Cache\CacheRepositoryInterface as Cache;
 
@@ -35,16 +37,16 @@ class CacheLoader extends Loader
     /**
      *  Create a new mixed loader instance.
      *
-     *  @param  string                                                      $defaultLocale
-     *  @param  \Waavi\Translation\Contracts\CacheRepositoryInterface       $cache              Cache repository.
-     *  @param  \Waavi\Translation\Loaders\Loader                           $fallback           Translation loader to use on cache miss.
-     *  @param  integer                                                     $cacheTimeout       In minutes.
+     *  @param  string  $defaultLocale
+     *  @param  \Waavi\Translation\Contracts\CacheRepositoryInterface  $cache              Cache repository.
+     *  @param  \Waavi\Translation\Loaders\Loader  $fallback           Translation loader to use on cache miss.
+     *  @param  int  $cacheTimeout       In minutes.
      */
     public function __construct($defaultLocale, Cache $cache, Loader $fallback, $cacheTimeout)
     {
         parent::__construct($defaultLocale);
-        $this->cache        = $cache;
-        $this->fallback     = $fallback;
+        $this->cache = $cache;
+        $this->fallback = $fallback;
         $this->cacheTimeout = $cacheTimeout;
     }
 
@@ -63,6 +65,7 @@ class CacheLoader extends Loader
         } else {
             $source = $this->fallback->load($locale, $group, $namespace);
             $this->cache->put($locale, $group, $namespace, $source, $this->cacheTimeout);
+
             return $source;
         }
     }

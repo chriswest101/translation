@@ -1,4 +1,5 @@
 <?php
+
 namespace Waavi\Translation;
 
 use Illuminate\Translation\FileLoader as LaravelFileLoader;
@@ -26,9 +27,9 @@ class TranslationServiceProvider extends LaravelTranslationServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../config/translator.php' => config_path('translator.php'),
+            __DIR__.'/../config/translator.php' => config_path('translator.php'),
         ]);
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations/');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations/');
     }
 
     /**
@@ -38,7 +39,7 @@ class TranslationServiceProvider extends LaravelTranslationServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/translator.php', 'translator');
+        $this->mergeConfigFrom(__DIR__.'/../config/translator.php', 'translator');
 
         parent::register();
         $this->registerCacheRepository();
@@ -70,33 +71,35 @@ class TranslationServiceProvider extends LaravelTranslationServiceProvider
         $app = $this->app;
         $this->app->singleton('translation.loader', function ($app) {
             $defaultLocale = $app['config']->get('app.locale');
-            $loader        = null;
-            $source        = $app['config']->get('translator.source');
+            $loader = null;
+            $source = $app['config']->get('translator.source');
 
             switch ($source) {
                 case 'mixed':
-                    $laravelFileLoader = new LaravelFileLoader($app['files'], $app->basePath() . '/resources/lang');
-                    $fileLoader        = new FileLoader($defaultLocale, $laravelFileLoader);
-                    $databaseLoader    = new DatabaseLoader($defaultLocale, $app->make(TranslationRepository::class));
-                    $loader            = new MixedLoader($defaultLocale, $fileLoader, $databaseLoader);
+                    $laravelFileLoader = new LaravelFileLoader($app['files'], $app->basePath().'/resources/lang');
+                    $fileLoader = new FileLoader($defaultLocale, $laravelFileLoader);
+                    $databaseLoader = new DatabaseLoader($defaultLocale, $app->make(TranslationRepository::class));
+                    $loader = new MixedLoader($defaultLocale, $fileLoader, $databaseLoader);
                     break;
                 case 'mixed_db':
-                    $laravelFileLoader = new LaravelFileLoader($app['files'], $app->basePath() . '/resources/lang');
-                    $fileLoader        = new FileLoader($defaultLocale, $laravelFileLoader);
-                    $databaseLoader    = new DatabaseLoader($defaultLocale, $app->make(TranslationRepository::class));
-                    $loader            = new MixedLoader($defaultLocale, $databaseLoader, $fileLoader);
+                    $laravelFileLoader = new LaravelFileLoader($app['files'], $app->basePath().'/resources/lang');
+                    $fileLoader = new FileLoader($defaultLocale, $laravelFileLoader);
+                    $databaseLoader = new DatabaseLoader($defaultLocale, $app->make(TranslationRepository::class));
+                    $loader = new MixedLoader($defaultLocale, $databaseLoader, $fileLoader);
                     break;
                 case 'database':
                     $loader = new DatabaseLoader($defaultLocale, $app->make(TranslationRepository::class));
                     break;
-                default:case 'files':
-                    $laravelFileLoader = new LaravelFileLoader($app['files'], $app->basePath() . '/resources/lang');
-                    $loader            = new FileLoader($defaultLocale, $laravelFileLoader);
-                    break;
+                    case 'files':
+                        $laravelFileLoader = new LaravelFileLoader($app['files'], $app->basePath().'/resources/lang');
+                        $loader = new FileLoader($defaultLocale, $laravelFileLoader);
+                        break;
+                    default:
             }
             if ($app['config']->get('translator.cache.enabled')) {
                 $loader = new CacheLoader($defaultLocale, $app['translation.cache.repository'], $loader, $app['config']->get('translator.cache.timeout'));
             }
+
             return $loader;
         });
     }
@@ -110,6 +113,7 @@ class TranslationServiceProvider extends LaravelTranslationServiceProvider
     {
         $this->app->singleton('translation.cache.repository', function ($app) {
             $cacheStore = $app['cache']->getStore();
+
             return CacheRepositoryFactory::make($cacheStore, $app['config']->get('translator.cache.suffix'));
         });
     }
@@ -121,12 +125,12 @@ class TranslationServiceProvider extends LaravelTranslationServiceProvider
      */
     protected function registerFileLoader()
     {
-        $app                   = $this->app;
-        $defaultLocale         = $app['config']->get('app.locale');
-        $languageRepository    = $app->make(LanguageRepository::class);
+        $app = $this->app;
+        $defaultLocale = $app['config']->get('app.locale');
+        $languageRepository = $app->make(LanguageRepository::class);
         $translationRepository = $app->make(TranslationRepository::class);
-        $translationsPath      = $app->basePath() . '/resources/lang';
-        $command               = new FileLoaderCommand($languageRepository, $translationRepository, $app['files'], $translationsPath, $defaultLocale);
+        $translationsPath = $app->basePath().'/resources/lang';
+        $command = new FileLoaderCommand($languageRepository, $translationRepository, $app['files'], $translationsPath, $defaultLocale);
 
         $this->app['command.translator:load'] = $command;
         $this->commands('command.translator:load');

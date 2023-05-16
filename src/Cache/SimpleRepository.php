@@ -1,4 +1,6 @@
-<?php namespace Waavi\Translation\Cache;
+<?php
+
+namespace Waavi\Translation\Cache;
 
 use Illuminate\Contracts\Cache\Store;
 
@@ -14,12 +16,11 @@ class SimpleRepository implements CacheRepositoryInterface
     /**
      * Create a new cache repository instance.
      *
-     * @param  \Illuminate\Contracts\Cache\Store  $store
      * @return void
      */
     public function __construct(Store $store, $cacheTag)
     {
-        $this->store    = $store;
+        $this->store = $store;
         $this->cacheTag = $cacheTag;
     }
 
@@ -29,11 +30,11 @@ class SimpleRepository implements CacheRepositoryInterface
      *  @param  string  $locale
      *  @param  string  $group
      *  @param  string  $namespace
-     *  @return boolean
+     *  @return bool
      */
     public function has($locale, $group, $namespace)
     {
-        return !is_null($this->get($locale, $group, $namespace));
+        return ! is_null($this->get($locale, $group, $namespace));
     }
 
     /**
@@ -47,6 +48,7 @@ class SimpleRepository implements CacheRepositoryInterface
     public function get($locale, $group, $namespace)
     {
         $key = $this->getKey($locale, $group, $namespace);
+
         return $this->store->get($key);
     }
 
@@ -56,8 +58,8 @@ class SimpleRepository implements CacheRepositoryInterface
      *  @param  string  $locale
      *  @param  string  $group
      *  @param  string  $namespace
-     *  @param  mixed   $content
-     *  @param  integer $minutes
+     *  @param  mixed  $content
+     *  @param  int  $minutes
      *  @return void
      */
     public function put($locale, $group, $namespace, $content, $minutes)
@@ -104,5 +106,4 @@ class SimpleRepository implements CacheRepositoryInterface
     {
         return md5("{$this->cacheTag}-{$locale}-{$group}-{$namespace}");
     }
-
 }

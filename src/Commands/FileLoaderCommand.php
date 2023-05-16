@@ -1,4 +1,6 @@
-<?php namespace Waavi\Translation\Commands;
+<?php
+
+namespace Waavi\Translation\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
@@ -19,23 +21,23 @@ class FileLoaderCommand extends Command
      *
      * @var string
      */
-    protected $description = "Load language files into the database.";
+    protected $description = 'Load language files into the database.';
 
     /**
      *  Create a new mixed loader instance.
      *
-     *  @param  \Waavi\Lang\Providers\LanguageProvider        $languageRepository
-     *  @param  \Waavi\Lang\Providers\LanguageEntryProvider   $translationRepository
-     *  @param  \Illuminate\Foundation\Application            $app
+     *  @param  \Waavi\Lang\Providers\LanguageProvider  $languageRepository
+     *  @param  \Waavi\Lang\Providers\LanguageEntryProvider  $translationRepository
+     *  @param  \Illuminate\Foundation\Application  $app
      */
     public function __construct(LanguageRepository $languageRepository, TranslationRepository $translationRepository, Filesystem $files, $translationsPath, $defaultLocale)
     {
         parent::__construct();
-        $this->languageRepository    = $languageRepository;
+        $this->languageRepository = $languageRepository;
         $this->translationRepository = $translationRepository;
-        $this->path                  = $translationsPath;
-        $this->files                 = $files;
-        $this->defaultLocale         = $defaultLocale;
+        $this->path = $translationsPath;
+        $this->files = $files;
+        $this->defaultLocale = $defaultLocale;
     }
 
     public function handle()
@@ -64,7 +66,7 @@ class FileLoaderCommand extends Command
     public function loadLocaleDirectories($path, $namespace = '*')
     {
         $availableLocales = $this->languageRepository->availableLocales();
-        $directories      = $this->files->directories($path);
+        $directories = $this->files->directories($path);
         foreach ($directories as $directory) {
             $locale = basename($directory);
             if (in_array($locale, $availableLocales)) {
@@ -80,7 +82,9 @@ class FileLoaderCommand extends Command
      *  Load all vendor overriden localization packages. Calls loadLocaleDirectories with the appropriate namespace.
      *
      *  @param  string  $path   Path to vendor locale root, usually /path/to/laravel/resources/lang/vendor.
+     *
      *  @see    http://laravel.com/docs/5.1/localization#overriding-vendor-language-files
+     *
      *  @return void
      */
     public function loadVendor($path)
@@ -106,8 +110,8 @@ class FileLoaderCommand extends Command
         // Load all files inside subdirectories:
         $directories = $this->files->directories($path);
         foreach ($directories as $directory) {
-            $directoryName = str_replace($path . '/', '', $directory);
-            $dirGroup      = $group . basename($directory) . '/';
+            $directoryName = str_replace($path.'/', '', $directory);
+            $dirGroup = $group.basename($directory).'/';
             $this->loadDirectory($directory, $locale, $namespace, $dirGroup);
         }
 
@@ -129,7 +133,7 @@ class FileLoaderCommand extends Command
      */
     public function loadFile($file, $locale, $namespace = '*', $group = '')
     {
-        $group        = $group . basename($file, '.php');
+        $group = $group.basename($file, '.php');
         $translations = $this->files->getRequire($file);
         $this->translationRepository->loadArray($translations, $locale, $group, $namespace, $locale == $this->defaultLocale);
     }

@@ -1,6 +1,8 @@
-<?php namespace Waavi\Translation\Traits;
+<?php
 
-use Waavi\Translation\Models\Translation;
+namespace Waavi\Translation\Traits;
+
+use Illuminate\Support\Facades\App;
 use Waavi\Translation\Repositories\TranslationRepository;
 
 class TranslatableObserver
@@ -8,13 +10,13 @@ class TranslatableObserver
     /**
      *  Save translations when model is saved.
      *
-     *  @param  Model $model
+     *  @param  Model  $model
      *  @return void
      */
     public function saved($model)
     {
-        $translationRepository = \App::make(TranslationRepository::class);
-        $cacheRepository       = \App::make('translation.cache.repository');
+        $translationRepository = App::make(TranslationRepository::class);
+        $cacheRepository = App::make('translation.cache.repository');
         foreach ($model->translatableAttributes() as $attribute) {
             // If the value of the translatable attribute has changed:
             if ($model->isDirty($attribute)) {
@@ -27,12 +29,12 @@ class TranslatableObserver
     /**
      *  Delete translations when model is deleted.
      *
-     *  @param  Model $model
+     *  @param  Model  $model
      *  @return void
      */
     public function deleted($model)
     {
-        $translationRepository = \App::make(TranslationRepository::class);
+        $translationRepository = App::make(TranslationRepository::class);
         foreach ($model->translatableAttributes() as $attribute) {
             $translationRepository->deleteByCode($model->translationCodeFor($attribute));
         }

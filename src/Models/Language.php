@@ -1,4 +1,6 @@
-<?php namespace Waavi\Translation\Models;
+<?php
+
+namespace Waavi\Translation\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -8,19 +10,20 @@ class Language extends Model
 
     /**
      *  Table name in the database.
+     *
      *  @var string
      */
     protected $table = 'translator_languages';
 
     /**
      *  List of variables that cannot be mass assigned
+     *
      *  @var array
      */
     protected $fillable = ['locale', 'name'];
 
     /**
      * Language constructor.
-     * @param array $attributes
      */
     public function __construct(array $attributes = [])
     {
@@ -46,5 +49,4 @@ class Language extends Model
     {
         return "languages.{$this->locale}";
     }
-
 }
